@@ -1,6 +1,6 @@
 {
   "name": "redux-as-repo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a ready to use reducer and a middleware to manage state with redux with one slice",
   "main": "lib/index.js",
   "files": [
