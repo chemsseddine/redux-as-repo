@@ -29,7 +29,11 @@
     "type": "git",
     "url": "git+https://github.com/chemsseddine/namerux.git"
   },
-  "keywords": ["redux","redux-saga","hooks"],
+  "keywords": [
+    "redux",
+    "redux-saga",
+    "hooks"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {

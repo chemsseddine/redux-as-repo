@@ -4,13 +4,16 @@ import reducer, {
 	FETCH_CLEAR,
 	FETCH_SUCCESS,
 	createNamespaceState,
+	SAVE_UPDATE_REPOSITORY,
+} from '../core/repository';
+
+import {
 	InitAction,
 	ClearAction,
 	SuccessAction,
 	ErrorAction,
 	UpdateAction,
-	SAVE_UPDATE_REPOSITORY,
-} from '../core/repository';
+} from '../core/repository/types';
 
 describe('repository reducer', () => {
 	const initialState = {};

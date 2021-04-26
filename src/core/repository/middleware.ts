@@ -1,11 +1,11 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import Api from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
+import { FetchOptions } from './types';
 import {
 	FETCH_ERROR,
 	FETCH_INIT,
 	FETCH_SUCCESS,
 	FETCH_LATEST,
-	fetchOptions,
 	fetchClear,
 	UPDATE_REPOSITORY,
 	getNamespace,
@@ -14,10 +14,12 @@ import {
 } from '.';
 const format = require('string-template');
 
-declare const window: { API_URL: string };
+export function service(options: AxiosRequestConfig) {
+	return axios(options);
+}
 
-function* fetchData(action: {
-	options: fetchOptions;
+export function* fetchDataSaga(action: {
+	options: FetchOptions;
 	type: string;
 }): Generator<any, any, any> {
 	const {
@@ -28,28 +30,27 @@ function* fetchData(action: {
 		errorCb,
 		autoClear,
 		selector,
-		external,
 	} = action.options;
 
-	let selectedState;
+	let selectedState: { [key: string]: string } = {};
 	if (selector) {
-		selectedState = yield select(selector) as any;
+		selectedState = yield select(selector);
 	}
 	const formattedUrl = selector ? format(url, selectedState) : url;
-	const requestedUrl = external
-		? formattedUrl
-		: `${window.API_URL}${formattedUrl}`;
-	const callFunction = () => Api({ method, url: requestedUrl, data, params });
 	try {
-		const response = yield call(callFunction);
-		const result = response.data;
+		const response = yield call(service, {
+			method,
+			url: formattedUrl,
+			data,
+			params,
+		});
 		yield put({
 			type: FETCH_SUCCESS,
-			payload: result,
+			payload: response.data,
 			namespace,
 		});
 		if (successCb) {
-			yield put(successCb(result));
+			yield put(successCb(response.data));
 		}
 		if (autoClear) {
 			yield put(fetchClear(namespace));
@@ -86,7 +87,7 @@ function* updateRepoSaga(action: UpdateAction): Generator<any, any, any> {
 }
 
 export default function* repoSaga() {
-	yield takeEvery(FETCH_INIT, fetchData);
-	yield takeLatest(FETCH_LATEST, fetchData);
+	yield takeEvery(FETCH_INIT, fetchDataSaga);
+	yield takeLatest(FETCH_LATEST, fetchDataSaga);
 	yield takeLatest(UPDATE_REPOSITORY, updateRepoSaga);
 }

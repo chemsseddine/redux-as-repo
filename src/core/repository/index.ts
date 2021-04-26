@@ -1,68 +1,35 @@
-import { AxiosRequestConfig } from 'axios';
 import { createSelector } from 'reselect';
+import {
+	NamespaceState,
+	ActionType,
+	ErrorAction,
+	UpdateAction,
+	ClearAction,
+	InitAction,
+	SuccessAction,
+	FetchOptions,
+	UpdateRepoOptions,
+} from './types';
 
-export const FETCH_INIT = 'redux-as-repo/FETCH_INIT';
-export const FETCH_SUCCESS = 'redux-as-repo/FETCH_SUCCESS';
-export const FETCH_ERROR = 'redux-as-repo/FETCH_ERROR';
-export const FETCH_LATEST = 'redux-as-repo/FETCH_LATEST';
-export const FETCH_CLEAR = 'redux-as-repo/FETCH_CLEAR';
-export const UPDATE_REPOSITORY = 'redux-as-repo/UPDATE_REPOSITORY';
-export const UPDATE_FAILED = 'redux-as-repo/UPDATE_FAILED';
+export const FETCH_INIT = '@redux-as-repo/FETCH_INIT';
+export const FETCH_SUCCESS = '@redux-as-repo/FETCH_SUCCESS';
+export const FETCH_ERROR = '@redux-as-repo/FETCH_ERROR';
+export const FETCH_LATEST = '@redux-as-repo/FETCH_LATEST';
+export const FETCH_CLEAR = '@redux-as-repo/FETCH_CLEAR';
+export const UPDATE_REPOSITORY = '@redux-as-repo/UPDATE_REPOSITORY';
+export const UPDATE_FAILED = '@redux-as-repo/UPDATE_FAILED';
 export const SAVE_UPDATE_REPOSITORY =
-	'redux-as-repo/repo/SAVE_UPDATE_REPOSITORY';
-
-type Primitive = string | boolean | number;
-type NotPrimitive = Object | any[];
-
-type NamespaceState = {
-	data: Primitive | NotPrimitive;
-	error: boolean;
-	loading: boolean;
-	success: boolean;
-	trace: null | string;
-};
+	'@redux-as-repo/repo/SAVE_UPDATE_REPOSITORY';
 
 export const repoInitialState: { [key: string]: NamespaceState } = {};
 
-export const createNamespaceState = (data: Primitive | NotPrimitive = []) => ({
+export const createNamespaceState = (data: any = []): NamespaceState => ({
 	data,
 	error: false,
 	loading: false,
 	success: false,
 	trace: null,
 });
-
-export interface InitAction {
-	type: string;
-	options: {
-		namespace: string;
-		initialState?: any;
-	};
-}
-export interface SuccessAction {
-	type: string;
-	namespace: string;
-	payload: any;
-}
-
-export interface UpdateAction {
-	type: string;
-	namespace: string;
-	newValue: any;
-}
-
-export interface ErrorAction {
-	type: string;
-	namespace: string;
-	message: string | object;
-}
-
-export interface ClearAction {
-	type: string;
-	namespace: string;
-}
-
-type ActionType = InitAction | SuccessAction | UpdateAction | ErrorAction;
 
 export default function reducer(state = repoInitialState, action: ActionType) {
 	switch (action.type) {
@@ -122,26 +89,14 @@ export default function reducer(state = repoInitialState, action: ActionType) {
 	}
 }
 
-export interface fetchOptions {
-	url: string;
-	namespace: string;
-	config?: AxiosRequestConfig;
-	successCb?: Function;
-	errorCb?: Function;
-	autoClear?: boolean;
-	selector?: (state: any, ...args: any[]) => any; // for formatting urls based on redux store
-	external?: boolean;
-	initialState?: Primitive | NotPrimitive;
-}
-
-export function fetchInit(options: fetchOptions) {
+export function fetchInit(options: FetchOptions) {
 	return {
 		type: FETCH_INIT,
 		options,
 	};
 }
 
-export function fetchLatest(options: fetchOptions) {
+export function fetchLatest(options: FetchOptions) {
 	return {
 		type: FETCH_LATEST,
 		options,
@@ -155,11 +110,6 @@ export function fetchClear(namespace: string) {
 	};
 }
 
-interface UpdateRepoOptions {
-	namespace: string;
-	compute: Function;
-}
-
 export function updateRepository(options: UpdateRepoOptions) {
 	return {
 		type: UPDATE_REPOSITORY,
@@ -167,7 +117,8 @@ export function updateRepository(options: UpdateRepoOptions) {
 	};
 }
 
-export const repositorySelector = (state: any) => state.repository;
+export const repositorySelector = (state: any): { [key: string]: any } =>
+	state.repository;
 
 export const getNamespace = (namespace: string) => {
 	return createSelector(repositorySelector, repo => {
