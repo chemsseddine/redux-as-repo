@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chemsseddine/namerux.git"
+    "url": "git+https://github.com/chemsseddine/redux-as-repo.git"
   },
   "keywords": [
     "redux",
@@ -37,9 +37,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/chemsseddine/namerux/issues"
+    "url": "https://github.com/chemsseddine/redux-as-repo/issues"
   },
-  "homepage": "https://github.com/chemsseddine/namerux#readme",
+  "homepage": "https://github.com/chemsseddine/redux-as-repo#readme",
   "devDependencies": {
     "@testing-library/react-hooks": "^5.1.2",
     "@types/jest": "^26.0.22",
