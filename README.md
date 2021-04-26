@@ -54,11 +54,11 @@ export interface fetchOptions {
 	autoClear?: boolean;
 	selector?: (state: any, ...args: any[]) => any; // for formatting urls based on redux store
 	external?: boolean;
-	initialState?: Primitive | NotPrimitive;
+	initialState?: any;
 }
 ```
 
-1. dispatch action of type : repo-as-reducer/repo/FETCH_INIT
+1. dispatch action of type : @repo-as-reducer/FETCH_INIT
 2. an xhr call to url with options provided
 3. response data will be stored inside repository.projects
 
