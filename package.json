@@ -1,6 +1,6 @@
 {
   "name": "redux-as-repo",
-  "version": "1.0.2",
+  "version": "0.0.0-development",
   "description": "a ready to use reducer and a middleware to manage state with redux with one slice",
   "main": "lib/index.js",
   "files": [
@@ -23,11 +23,12 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc",
-    "test": "jest --config jestconfig.json"
+    "test": "jest --config jestconfig.json",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chemsseddine/redux-as-repo.git"
+    "url": "https://github.com/chemsseddine/redux-as-repo.git"
   },
   "keywords": [
     "redux",
@@ -53,7 +54,8 @@
     "reselect": "^4.0.0",
     "string-template": "^1.0.0",
     "ts-jest": "^26.5.5",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "semantic-release": "^17.4.2"
   },
   "peerDependencies": {
     "axios": "^0.21.1",
