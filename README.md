@@ -5,9 +5,9 @@ This library provides utility functions to deal with redux without the boilerpla
 # Installation
 
 ```sh
-npm i instarux
-#or with yarn
-yarn add instarux
+npm i redux-as-repo
+# using yarn
+yarn add redux-as-repo
 ```
 
 # Usage
@@ -58,7 +58,7 @@ export interface fetchOptions {
 }
 ```
 
-1. dispatch action of type : instarux/repo/FETCH_INIT
+1. dispatch action of type : repo-as-reducer/repo/FETCH_INIT
 2. an xhr call to url with options provided
 3. response data will be stored inside repository.projects
 

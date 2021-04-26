@@ -1,14 +1,15 @@
 import { AxiosRequestConfig } from 'axios';
 import { createSelector } from 'reselect';
 
-export const FETCH_INIT = 'instarux/repo/FETCH_INIT';
-export const FETCH_SUCCESS = 'instarux/repo/FETCH_SUCCESS';
-export const FETCH_ERROR = 'instarux/repo/FETCH_ERROR';
-export const FETCH_LATEST = 'instarux/repo/FETCH_LATEST';
-export const FETCH_CLEAR = 'instarux/repo/FETCH_CLEAR';
-export const UPDATE_REPOSITORY = 'instarux/repo/UPDATE_REPOSITORY';
-export const UPDATE_FAILED = 'instarux/repo/UPDATE_FAILED';
-export const SAVE_UPDATE_REPOSITORY = 'instarux/repo/SAVE_UPDATE_REPOSITORY';
+export const FETCH_INIT = 'redux-as-repo/FETCH_INIT';
+export const FETCH_SUCCESS = 'redux-as-repo/FETCH_SUCCESS';
+export const FETCH_ERROR = 'redux-as-repo/FETCH_ERROR';
+export const FETCH_LATEST = 'redux-as-repo/FETCH_LATEST';
+export const FETCH_CLEAR = 'redux-as-repo/FETCH_CLEAR';
+export const UPDATE_REPOSITORY = 'redux-as-repo/UPDATE_REPOSITORY';
+export const UPDATE_FAILED = 'redux-as-repo/UPDATE_FAILED';
+export const SAVE_UPDATE_REPOSITORY =
+	'redux-as-repo/repo/SAVE_UPDATE_REPOSITORY';
 
 type Primitive = string | boolean | number;
 type NotPrimitive = Object | any[];
