@@ -24,6 +24,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Code coverage
+      uses: artiomtr/jest-coverage-report-action@v2.2
+      with:
+        github_token: ${{ secrets.GH_TOKEN }}
+        threshold: 70
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
