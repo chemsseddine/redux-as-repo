@@ -24,8 +24,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Code coverage
-      uses: artiomtr/jest-coverage-report-action@v2.2
+    - name: Jest coverage report
+      uses: ArtiomTr/jest-coverage-report-action@v1.2
       with:
         github_token: ${{ secrets.GH_TOKEN }}
         threshold: 70
