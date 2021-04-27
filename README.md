@@ -32,14 +32,7 @@ reducerRegistry.register('repository', repoReducer);
 ```js
 import axios from 'axios';
 import { all, fork } from 'react-sagas/effects';
-import { createRepoSaga } from 'redux-as-repo';
-
-axios.create({
-	baseURL: '...',
-	// other configs
-});
-
-const repoSaga = createRepoSaga(axiosInstance);
+import { repoSaga } from 'redux-as-repo';
 
 // in your rootSaga, add the repoSaga
 
@@ -54,7 +47,7 @@ a `repository` slice in redux store handled by common action creators to store d
 
 ```javascript
 export function fetchProjects() {
-	fetchInit(({
+	return fetchInit(({
 	 	url,
 		namespace: 'projects'
 	}));
