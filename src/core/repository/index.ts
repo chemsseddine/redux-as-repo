@@ -38,10 +38,19 @@ export default function reducer(state = repoInitialState, action: ActionType) {
 			const {
 				options: { namespace, initialState },
 			} = action as InitAction;
+			if (!state[namespace]) {
+				return {
+					...state,
+					[namespace]: {
+						...createNamespaceState(initialState),
+						loading: true,
+					},
+				};
+			}
 			return {
 				...state,
 				[namespace]: {
-					...createNamespaceState(initialState),
+					...state[namespace],
 					loading: true,
 				},
 			};
@@ -70,6 +79,7 @@ export default function reducer(state = repoInitialState, action: ActionType) {
 			return {
 				...state,
 				[namespace]: {
+					...state[namespace],
 					loading: false,
 					success: false,
 					error: true,
