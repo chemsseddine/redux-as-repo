@@ -32,6 +32,25 @@ describe('repository reducer', () => {
 		expect(returnedState).toEqual({ [namespace]: expectedState });
 	});
 
+	it('should return previous namespace state for FETCH_INIT and FETCH_LATEST if namespace exists', () => {
+		const types = [FETCH_INIT, FETCH_LATEST];
+		// pick a random type from types list
+		const type = types[Math.floor(Math.random() * types.length)];
+
+		const action = { type, options: { namespace } };
+		const data = ['orange'];
+		const previousState = {
+			[namespace]: { ...createNamespaceState(), data },
+		};
+		const expectedState = createNamespaceState();
+		// loading should be set to true;
+		expectedState.loading = true;
+		const returnedState = reducer(previousState, action as InitAction);
+		expect(returnedState).toEqual({
+			[namespace]: { ...expectedState, data },
+		});
+	});
+
 	it('should clear namespace for FETCH_CLEAR', () => {
 		const action = { type: FETCH_CLEAR, namespace };
 		const state = { [namespace]: createNamespaceState() };
