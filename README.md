@@ -30,7 +30,6 @@ reducerRegistry.register('repository', repoReducer);
 ```
 
 ```js
-import axios from 'axios';
 import { all, fork } from 'react-sagas/effects';
 import { repoSaga } from 'redux-as-repo';
 
@@ -43,7 +42,17 @@ export default function* rootSaga() {
 
 ## Common Action Creators
 
-a `repository` slice in redux store handled by common action creators to store data.
+`repository` slice in redux store handled by common action creators to store data.
+
+| Property    | Type                 | required | Description                                                                                                                                                                                                                                          |
+| ----------- | -------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`       | `string`             | Yes      | url                                                                                                                                                                                                                                                  |
+| `namespace` | `string`             | Yes      | where to store the dara inside repository                                                                                                                                                                                                            |
+| `config`    | `AxiosRequestConfig` |          | Axios config object (method, data, params)                                                                                                                                                                                                           |
+| `successCb` | Action Creator       |          | Function that takes response data as an argument and returns an action `(data) => ({type:'SOME_ACTION', data}) `                                                                                                                                     |
+| `errorCb`   | Action Creator       |          | same as successCb but will take error as callback argument                                                                                                                                                                                           |
+| `autoClear` | `boolean`            |          | will clear the namespace after success                                                                                                                                                                                                               |
+| `selector`  | `Function`           |          | A selector that returns an object with the desired to be formatted keys: `state => ( { projectId: state.projectId })` <br /> `const url = '/randomLink/{projectId}'` <br> projectId will be replaced therefore by the value coming from the selector |
 
 ```javascript
 export function fetchProjects() {
@@ -53,18 +62,6 @@ export function fetchProjects() {
 	}));
 }
 
-//options
-export interface fetchOptions {
-	url: string;
-	namespace: string;
-	config?: AxiosRequestConfig;
-	successCb?: Function;
-	errorCb?: Function;
-	autoClear?: boolean;
-	selector?: (state: any, ...args: any[]) => any; // for formatting urls based on redux store
-	external?: boolean;
-	initialState?: any;
-}
 
 //in your YourComponent
 import { useDispatch } from 'react-redux';
@@ -125,12 +122,20 @@ const isLoading = useSelector(loadingStateSelector);
 
 ### useNamespace as a custom hook
 
+To get namespace data without using selectors, a custom hook is there for you
+
 ```js
 import { useNamespace } from 'redux-as-repo';
 
 const { data, error, loading } = useNamespace({
 	namespace: 'PROJECTS',
 	onSuccess: callback,
-	autoClear: false,
+	autoClear: true,
 });
 ```
+
+| Property    | Type       | required          | Description                                   |
+| ----------- | ---------- | ----------------- | --------------------------------------------- |
+| `autoClear` | `boolean`  | default : `false` | clear namespace on component cleanup          |
+| `namespace` | `string`   | Yes               | where namespace is saved                      |
+| `onSuccess` | `callback` | No                | will be executed if namespace.success is true |
