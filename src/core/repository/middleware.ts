@@ -1,5 +1,5 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import axios, { AxiosRequestConfig } from 'axios';
+import { AxiosInstance } from 'axios';
 import { FetchOptions } from './types';
 import {
 	FETCH_ERROR,
@@ -14,14 +14,14 @@ import {
 } from '.';
 const format = require('string-template');
 
-export function service(options: AxiosRequestConfig) {
-	return axios(options);
-}
-
-export function* fetchDataSaga(action: {
+type FetchAction = {
 	options: FetchOptions;
 	type: string;
-}): Generator<any, any, any> {
+};
+export function* fetchDataSaga(
+	action: FetchAction,
+	axiosInstance: AxiosInstance
+): Generator<any, any, any> {
 	const {
 		namespace,
 		url,
@@ -38,12 +38,14 @@ export function* fetchDataSaga(action: {
 	}
 	const formattedUrl = selector ? format(url, selectedState) : url;
 	try {
-		const response = yield call(service, {
-			method,
-			url: formattedUrl,
-			data,
-			params,
-		});
+		const service = () =>
+			axiosInstance({
+				method,
+				url: formattedUrl,
+				data,
+				params,
+			});
+		const response = yield call(service);
 		yield put({
 			type: FETCH_SUCCESS,
 			payload: response.data,
@@ -88,8 +90,12 @@ export function* updateRepoSaga(
 	}
 }
 
-export default function* repoSaga() {
-	yield takeEvery(FETCH_INIT, fetchDataSaga);
-	yield takeLatest(FETCH_LATEST, fetchDataSaga);
+export default function* repoSaga(axiosInstance: AxiosInstance) {
+	yield takeEvery(FETCH_INIT, (action: FetchAction) =>
+		fetchDataSaga(action, axiosInstance)
+	);
+	yield takeLatest(FETCH_LATEST, (action: FetchAction) =>
+		fetchDataSaga(action, axiosInstance)
+	);
 	yield takeLatest(UPDATE_REPOSITORY, updateRepoSaga);
 }
