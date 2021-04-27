@@ -45,7 +45,12 @@ export default function* rootSaga() {
 a `repository` slice in redux store handled by common action creators to store data.
 
 ```javascript
-fetchInit(({ url, namespace: 'projects' }: fetchOptions));
+export function fetchProjects() {
+	fetchInit(({
+	 	url,
+		namespace: 'projects'
+	}));
+}
 
 //options
 export interface fetchOptions {
@@ -58,6 +63,20 @@ export interface fetchOptions {
 	selector?: (state: any, ...args: any[]) => any; // for formatting urls based on redux store
 	external?: boolean;
 	initialState?: any;
+}
+
+//in your YourComponent
+import { useDispatch } from 'react-redux';
+import { fetchProjects } from 'path/of/your_redux_actions';
+
+const MyComponent = () => {
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+	  dispatch(fetchProjects())
+	},[])
+
+	return (...)
 }
 ```
 
@@ -93,12 +112,14 @@ this will create a memoized selector.
 ```js
 // store/YourComponent/index.ts
 
-import { getData } from 'redux-as-repo';
+import { getData, getLoadingState } from 'redux-as-repo';
 
 const dataSelector = getData(namespace);
+const loadingStateSelector = getLoadingState(namespace);
 
 // YourComponent/index.tsx
 const data = useSelector(dataSelector);
+const isLoading = useSelector(loadingStateSelector);
 ```
 
 ### useNamespace as a custom hook
