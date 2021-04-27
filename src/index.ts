@@ -1,4 +1,3 @@
-import { AxiosInstance } from 'axios';
 import repoSaga from './core/repository/middleware';
 import repoReducer, {
 	getNamespace,
@@ -11,14 +10,9 @@ import repoReducer, {
 } from './core/repository';
 import useNamespace from './hooks/useNamespace';
 
-function createRepoSaga(axiosInstance: AxiosInstance) {
-	return repoSaga(axiosInstance);
-}
-
 export {
-	repoSaga,
 	repoReducer,
-	createRepoSaga,
+	repoSaga,
 	getNamespace,
 	useNamespace,
 	fetchInit,

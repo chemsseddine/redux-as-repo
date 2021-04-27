@@ -1,5 +1,5 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import { AxiosInstance } from 'axios';
+import axios from 'axios';
 import { FetchOptions } from './types';
 import {
 	FETCH_ERROR,
@@ -18,10 +18,7 @@ type FetchAction = {
 	options: FetchOptions;
 	type: string;
 };
-export function* fetchDataSaga(
-	action: FetchAction,
-	axiosInstance: AxiosInstance
-): Generator<any, any, any> {
+export function* fetchDataSaga(action: FetchAction): Generator<any, any, any> {
 	const {
 		namespace,
 		url,
@@ -39,7 +36,7 @@ export function* fetchDataSaga(
 	const formattedUrl = selector ? format(url, selectedState) : url;
 	try {
 		const service = () =>
-			axiosInstance({
+			axios({
 				method,
 				url: formattedUrl,
 				data,
@@ -90,12 +87,8 @@ export function* updateRepoSaga(
 	}
 }
 
-export default function* repoSaga(axiosInstance: AxiosInstance) {
-	yield takeEvery(FETCH_INIT, (action: FetchAction) =>
-		fetchDataSaga(action, axiosInstance)
-	);
-	yield takeLatest(FETCH_LATEST, (action: FetchAction) =>
-		fetchDataSaga(action, axiosInstance)
-	);
+export default function* repoSaga() {
+	yield takeEvery(FETCH_INIT, fetchDataSaga);
+	yield takeLatest(FETCH_LATEST, fetchDataSaga);
 	yield takeLatest(UPDATE_REPOSITORY, updateRepoSaga);
 }

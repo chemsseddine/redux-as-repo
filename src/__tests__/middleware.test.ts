@@ -37,8 +37,7 @@ describe('fetchDataSaga', () => {
 					url: '/randomLink',
 					namespace,
 				},
-			},
-			axios
+			}
 		);
 
 		expect(dispatched).toEqual(
@@ -72,8 +71,7 @@ describe('fetchDataSaga', () => {
 					url: '/randomLink',
 					namespace,
 				},
-			},
-			axios
+			}
 		);
 
 		expect(dispatched).toEqual(
@@ -108,8 +106,7 @@ describe('fetchDataSaga', () => {
 					namespace,
 					autoClear: true,
 				},
-			},
-			axios
+			}
 		);
 
 		expect(dispatched).toEqual(
@@ -150,8 +147,7 @@ describe('fetchDataSaga', () => {
 					namespace,
 					successCb,
 				},
-			},
-			axios
+			}
 		);
 
 		expect(dispatched).toEqual(
@@ -186,8 +182,7 @@ describe('fetchDataSaga', () => {
 					namespace,
 					selector: state => ({ projectId: state.projectId }),
 				},
-			},
-			axios
+			}
 		);
 
 		expect(axios).toHaveBeenCalledWith(
