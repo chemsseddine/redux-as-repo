@@ -1,0 +1,24 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Coverage
+
+# Controls when the action will run. 
+on:
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Jest coverage report
+      uses: ArtiomTr/jest-coverage-report-action@v1.2
+      with:
+        github_token: ${{ secrets.GH_TOKEN }}
+        threshold: 70
