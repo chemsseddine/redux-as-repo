@@ -70,12 +70,14 @@ export function* fetchDataSaga(action: {
 type UpdateAction = {
 	type: string;
 	options: {
-		compute: Function;
+		compute: (state: any) => any;
 		namespace: string;
 	};
 };
 
-function* updateRepoSaga(action: UpdateAction): Generator<any, any, any> {
+export function* updateRepoSaga(
+	action: UpdateAction
+): Generator<any, any, any> {
 	try {
 		const { compute, namespace } = action.options;
 		const namespaceData = yield select(getNamespace(namespace));
