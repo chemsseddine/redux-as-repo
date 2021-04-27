@@ -143,3 +143,10 @@ export const getData = (namespace: string) => {
 		return repo[namespace].data;
 	});
 };
+
+export const getLoadingState = (namespace: string) => {
+	return createSelector(repositorySelector, repo => {
+		if (!repo[namespace]) return false;
+		return repo[namespace].loading;
+	});
+};

@@ -6,6 +6,7 @@ import repoReducer, {
 	fetchLatest,
 	updateRepository,
 	getData,
+	getLoadingState,
 } from './core/repository';
 import useNamespace from './hooks/useNamespace';
 
@@ -19,4 +20,5 @@ export {
 	fetchLatest,
 	updateRepository,
 	getData,
+	getLoadingState,
 };
