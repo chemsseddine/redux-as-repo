@@ -31,9 +31,12 @@ reducerRegistry.register('repository', repoReducer);
 
 ```js
 import { all, fork } from 'react-sagas/effects';
-import { repoSaga } from 'redux-as-repo';
+import { createRepoSaga } from 'redux-as-repo';
+import { axiosInstance } from 'your/axios/instance';
 
-// in your rootSaga, add the repoSaga
+// in your rootSaga, create repoSaga
+
+const repoSaga = createRepoSaga(axiosInstance);
 
 export default function* rootSaga() {
 	yield all([fork(repoSaga)]);
