@@ -1,4 +1,4 @@
-import repoSaga from './core/repository/middleware';
+import createRepoSaga from './core/repository/middleware';
 import repoReducer, {
 	getNamespace,
 	fetchInit,
@@ -12,7 +12,7 @@ import useNamespace from './hooks/useNamespace';
 
 export {
 	repoReducer,
-	repoSaga,
+	createRepoSaga,
 	getNamespace,
 	useNamespace,
 	fetchInit,
