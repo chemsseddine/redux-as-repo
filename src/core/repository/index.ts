@@ -66,7 +66,7 @@ export default function reducer(state = repoInitialState, action: ActionType) {
 			return {
 				...state,
 				[namespace]: {
-					...createNamespaceState(),
+					...state[namespace],
 					data: payload,
 					loading: false,
 					success: true,
