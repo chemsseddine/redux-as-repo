@@ -127,8 +127,13 @@ export function updateRepository(options: UpdateRepoOptions) {
 	};
 }
 
-export const repositorySelector = (state: any): { [key: string]: any } =>
-	state.repository;
+export const repositorySelector = (state: any): { [key: string]: any } => {
+	if (!state.repository)
+		throw new Error(
+			'a repository key should be present in your state to use @redux-as-repo'
+		);
+	return state.repository;
+};
 
 export const getNamespace = (namespace: string) => {
 	return createSelector(repositorySelector, repo => {

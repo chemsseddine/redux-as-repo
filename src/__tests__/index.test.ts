@@ -5,6 +5,7 @@ import reducer, {
 	FETCH_SUCCESS,
 	createNamespaceState,
 	SAVE_UPDATE_REPOSITORY,
+	repositorySelector,
 } from '../core/repository';
 
 import {
@@ -101,5 +102,19 @@ describe('repository reducer', () => {
 
 		const returnedState = reducer({}, action);
 		expect(returnedState).toEqual({ [namespace]: namespaceState });
+	});
+});
+
+describe('selector creators', () => {
+	it('repositorySelector, return empty object', () => {
+		const state = { repository: {} };
+		const data = repositorySelector(state);
+		expect(data).toEqual({});
+	});
+
+	it('repositorySelector, throw an error if repository key is not present', () => {
+		const state = {};
+		const repoWrapperSelector = () => repositorySelector(state);
+		expect(repoWrapperSelector).toThrowError();
 	});
 });
