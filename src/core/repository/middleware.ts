@@ -18,6 +18,9 @@ type FetchAction = {
 	options: FetchOptions;
 	type: string;
 };
+
+let handleResponse: (data: any) => any = f => f;
+
 export function* fetchDataSaga(
 	action: FetchAction,
 	axiosInstance: AxiosInstance
@@ -46,9 +49,10 @@ export function* fetchDataSaga(
 				params,
 			});
 		const response = yield call(service);
+		const result = handleResponse(response.data);
 		yield put({
 			type: FETCH_SUCCESS,
-			payload: response.data,
+			payload: result,
 			namespace,
 		});
 		if (successCb) {
@@ -100,6 +104,12 @@ function* repoSaga(instance: AxiosInstance) {
 	yield takeLatest(UPDATE_REPOSITORY, updateRepoSaga);
 }
 
-export default function createRepoSaga(instance: AxiosInstance) {
+export default function createRepoSaga(
+	instance: AxiosInstance,
+	responseCallback?: (data: any) => any
+) {
+	if (responseCallback) {
+		handleResponse = responseCallback;
+	}
 	return () => repoSaga(instance);
 }
