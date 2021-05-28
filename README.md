@@ -36,12 +36,46 @@ import { axiosInstance } from 'your/axios/instance';
 
 // in your rootSaga, create repoSaga
 
-const repoSaga = createRepoSaga(axiosInstance);
+
+const handleResponse = (axiosData) => {
+	if (...){
+		return ...
+	}
+	return ...
+}
+
+const repoSaga = createRepoSaga(axiosInstance, handleResponse);
 
 export default function* rootSaga() {
 	yield all([fork(repoSaga)]);
 }
 ```
+
+`createRepoSaga` takes 2 arguments:
+
+1. `axiosInstance` which is required
+2. response handler: `optional` (if your backend has fixed format to return data, you can create a handler that returns a portion of response and store it inside the key `data`)
+
+```json
+{
+	"result": [],
+	"status": "success",
+	"errorMessage": "...",
+	"errorCode": "..."
+}
+```
+
+if you need just `result`, define a response handler and pass it to `createRepoSaga`
+
+```javascript
+const handleResponse = data => {
+	if (status === 'success') {
+		return data.result;
+	} else throw new Error(data.errorMessage);
+};
+```
+
+Throwing an error will cause a `FETCH_ERROR` action to be dispatched
 
 ## Common Action Creators
 
