@@ -105,6 +105,22 @@ data is stored in this format
 
 `fetchClear(namespace)` will clear data stored for `repository[namespace]`
 
+### Manual Update of a namespace
+
+`updateRepository` action creator is made for this, the usage is pretty simple,
+
+```javascript
+function updateProject(newValue) {
+	return updateRepository({
+		namespace: 'projects',
+		compute: oldNamespaceState => ({
+			...oldNamespaceState,
+			key: newValue,
+		}),
+	});
+}
+```
+
 ## Selectors
 
 to get stored data by namespace use `getData(namespace)`
