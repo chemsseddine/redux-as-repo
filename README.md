@@ -187,8 +187,8 @@ const { data, error, loading } = useNamespace({
 });
 ```
 
-| Property    | Type       | required          | Description                                   |
-| ----------- | ---------- | ----------------- | --------------------------------------------- |
-| `autoClear` | `boolean`  | default : `false` | clear namespace on component cleanup          |
-| `namespace` | `string`   | Yes               | where namespace is saved                      |
-| `onSuccess` | `callback` | No                | will be executed if namespace.success is true |
+| Property    | Type       | required          | Description                                                                   |
+| ----------- | ---------- | ----------------- | ----------------------------------------------------------------------------- |
+| `autoClear` | `boolean`  | default : `false` | clear namespace on component cleanup                                          |
+| `namespace` | `string`   | Yes               | where namespace is saved                                                      |
+| `onSuccess` | `callback` | No                | will be executed if namespace.success is true, data is passed to the callback |

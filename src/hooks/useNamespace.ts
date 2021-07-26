@@ -14,11 +14,11 @@ export default function useNamespace({
 	autoClear = false,
 }: Options) {
 	const dispatch = useDispatch();
-	const { success, ...rest } = useSelector(getNamespace(namespace));
+	const { success, data, ...rest } = useSelector(getNamespace(namespace));
 
 	useEffect(() => {
 		if (success && onSuccess) {
-			onSuccess();
+			onSuccess(data);
 		}
 	}, [success, onSuccess]);
 
@@ -30,5 +30,5 @@ export default function useNamespace({
 		};
 	}, [autoClear, dispatch, namespace]);
 
-	return { success, ...rest };
+	return { success, data, ...rest };
 }
