@@ -142,7 +142,7 @@ export const getNamespace = (namespace: string) => {
 	});
 };
 
-export const getData = (namespace: string, defaultState: any) => {
+export const getData = (namespace: string, defaultState?: any) => {
 	return createSelector(repositorySelector, repo => {
 		if (!repo[namespace]) return defaultState;
 		return repo[namespace].data;
