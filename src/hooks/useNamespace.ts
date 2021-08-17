@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchClear, getNamespace } from '../core/repository';
+const isEqual = require('lodash.isequal');
 
 interface Options {
 	namespace: string;
@@ -14,7 +15,10 @@ export default function useNamespace({
 	autoClear = false,
 }: Options) {
 	const dispatch = useDispatch();
-	const { success, data, ...rest } = useSelector(getNamespace(namespace));
+	const { success, data, ...rest } = useSelector(
+		getNamespace(namespace),
+		isEqual
+	);
 
 	useEffect(() => {
 		if (success && onSuccess) {
