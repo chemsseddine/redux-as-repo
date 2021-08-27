@@ -1,5 +1,5 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import { AxiosInstance } from 'axios';
+import { AxiosError, AxiosInstance } from 'axios';
 import { FetchOptions } from './types';
 import {
 	FETCH_ERROR,
@@ -64,13 +64,13 @@ export function* fetchDataSaga(
 		if (autoClear) {
 			yield put(fetchClear(namespace));
 		}
-	} catch (e) {
+	} catch (e: any) {
 		if (errorCb) {
 			yield put(errorCb(e));
 		}
 		yield put({
 			type: FETCH_ERROR,
-			message: e,
+			message: e?.message,
 			namespace,
 		});
 	}
