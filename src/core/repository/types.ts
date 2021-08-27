@@ -54,7 +54,7 @@ export interface FetchOptions {
 	autoClear?: boolean;
 	selector?: (state: any, ...args: any[]) => { [key: string]: string };
 	initialState?: any;
-	disableResponseHandler?: boolean;
+	disableResponseHandler?: any;
 }
 
 export interface UpdateRepoOptions {
