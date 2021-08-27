@@ -50,7 +50,7 @@ export function* fetchDataSaga(
 				params,
 			});
 		const response = yield call(service);
-		const result = disableResponseHandler
+		const result = !!disableResponseHandler
 			? response.data
 			: handleResponse(response.data);
 		yield put({
