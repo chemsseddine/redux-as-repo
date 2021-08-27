@@ -33,6 +33,7 @@ export function* fetchDataSaga(
 		errorCb,
 		autoClear,
 		selector,
+		skipResponseHandler,
 	} = action.options;
 
 	let selectedState: { [key: string]: string } = {};
@@ -49,7 +50,9 @@ export function* fetchDataSaga(
 				params,
 			});
 		const response = yield call(service);
-		const result = handleResponse(response.data);
+		const result = skipResponseHandler
+			? response.data
+			: handleResponse(response.data);
 		yield put({
 			type: FETCH_SUCCESS,
 			payload: result,
@@ -67,7 +70,7 @@ export function* fetchDataSaga(
 		}
 		yield put({
 			type: FETCH_ERROR,
-			message: e.message,
+			message: e,
 			namespace,
 		});
 	}
