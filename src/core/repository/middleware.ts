@@ -1,5 +1,5 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import { AxiosInstance } from 'axios';
+import { AxiosError, AxiosInstance } from 'axios';
 import { FetchOptions } from './types';
 import {
 	FETCH_ERROR,
@@ -33,6 +33,7 @@ export function* fetchDataSaga(
 		errorCb,
 		autoClear,
 		selector,
+		skipResponseHandler,
 	} = action.options;
 
 	let selectedState: { [key: string]: string } = {};
@@ -49,7 +50,9 @@ export function* fetchDataSaga(
 				params,
 			});
 		const response = yield call(service);
-		const result = handleResponse(response.data);
+		const result = skipResponseHandler
+			? response.data
+			: handleResponse(response.data);
 		yield put({
 			type: FETCH_SUCCESS,
 			payload: result,
@@ -61,13 +64,13 @@ export function* fetchDataSaga(
 		if (autoClear) {
 			yield put(fetchClear(namespace));
 		}
-	} catch (e) {
+	} catch (e: any) {
 		if (errorCb) {
 			yield put(errorCb(e));
 		}
 		yield put({
 			type: FETCH_ERROR,
-			message: e.message,
+			message: e?.message,
 			namespace,
 		});
 	}
