@@ -65,6 +65,7 @@ export function* fetchDataSaga(
 			yield put(fetchClear(namespace));
 		}
 	} catch (e: any) {
+		console.error(e);
 		if (errorCb) {
 			yield put(errorCb(e));
 		}
