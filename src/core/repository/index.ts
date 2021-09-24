@@ -12,6 +12,7 @@ import {
 } from './types';
 
 export const FETCH_INIT = '@redux-as-repo/FETCH_INIT';
+export const FETCH_NEW_INIT = '@redux-as-repo/FETCH_NEW_INIT';
 export const FETCH_SUCCESS = '@redux-as-repo/FETCH_SUCCESS';
 export const FETCH_ERROR = '@redux-as-repo/FETCH_ERROR';
 export const FETCH_LATEST = '@redux-as-repo/FETCH_LATEST';
@@ -33,6 +34,18 @@ export const createNamespaceState = (data: any = []): NamespaceState => ({
 
 export default function reducer(state = repoInitialState, action: ActionType) {
 	switch (action.type) {
+		case FETCH_NEW_INIT:
+			const {
+				options: { namespace, initialState },
+			} = action as InitAction;
+			return {
+				...state,
+				[namespace]: {
+					...createNamespaceState(initialState),
+					loading: true,
+				},
+			};
+
 		case FETCH_INIT:
 		case FETCH_LATEST: {
 			const {
@@ -109,6 +122,13 @@ export function fetchInit(options: FetchOptions) {
 export function fetchLatest(options: FetchOptions) {
 	return {
 		type: FETCH_LATEST,
+		options,
+	};
+}
+
+export function fetchNewInit(options: FetchOptions) {
+	return {
+		type: FETCH_NEW_INIT,
 		options,
 	};
 }
