@@ -5,6 +5,8 @@
 
 This library provides utility functions to deal with redux without the boilerplate.
 
+Usage Examples on [CodeSandbox](https://codesandbox.io/s/redux-as-repo-kij54)
+
 # Installation
 
 ```sh
