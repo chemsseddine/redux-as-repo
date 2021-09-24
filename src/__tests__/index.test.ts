@@ -2,6 +2,7 @@ import reducer, {
 	FETCH_INIT,
 	FETCH_LATEST,
 	FETCH_CLEAR,
+	FETCH_NEW_INIT,
 	FETCH_SUCCESS,
 	createNamespaceState,
 	SAVE_UPDATE_REPOSITORY,
@@ -49,6 +50,20 @@ describe('repository reducer', () => {
 		const returnedState = reducer(previousState, action as InitAction);
 		expect(returnedState).toEqual({
 			[namespace]: { ...expectedState, data },
+		});
+	});
+	it('should return new namespace state for FETCH_NEW_INIT if namespace exists', () => {
+		const action = { type: FETCH_NEW_INIT, options: { namespace } };
+		const data = ['orange'];
+		const previousState = {
+			[namespace]: { ...createNamespaceState(), data },
+		};
+		const expectedState = createNamespaceState();
+		// loading should be set to true;
+		expectedState.loading = true;
+		const returnedState = reducer(previousState, action as InitAction);
+		expect(returnedState).toEqual({
+			[namespace]: expectedState,
 		});
 	});
 

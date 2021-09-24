@@ -11,6 +11,7 @@ import {
 	getNamespace,
 	SAVE_UPDATE_REPOSITORY,
 	UPDATE_FAILED,
+	FETCH_NEW_INIT,
 } from '.';
 const format = require('string-template');
 
@@ -65,7 +66,6 @@ export function* fetchDataSaga(
 			yield put(fetchClear(namespace));
 		}
 	} catch (e: any) {
-		console.error(e);
 		if (errorCb) {
 			yield put(errorCb(e));
 		}
@@ -103,6 +103,9 @@ function* repoSaga(instance: AxiosInstance) {
 		fetchDataSaga(action, instance)
 	);
 	yield takeLatest(FETCH_LATEST, (action: FetchAction) =>
+		fetchDataSaga(action, instance)
+	);
+	yield takeLatest(FETCH_NEW_INIT, (action: FetchAction) =>
 		fetchDataSaga(action, instance)
 	);
 	yield takeLatest(UPDATE_REPOSITORY, updateRepoSaga);
