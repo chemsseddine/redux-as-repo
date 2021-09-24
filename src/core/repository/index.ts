@@ -12,6 +12,7 @@ import {
 } from './types';
 
 export const FETCH_INIT = '@redux-as-repo/FETCH_INIT';
+export const FETCH_FIRST = '@redux-as-repo/FETCH_FIRST';
 export const FETCH_NEW_INIT = '@redux-as-repo/FETCH_NEW_INIT';
 export const FETCH_SUCCESS = '@redux-as-repo/FETCH_SUCCESS';
 export const FETCH_ERROR = '@redux-as-repo/FETCH_ERROR';
@@ -46,6 +47,7 @@ export default function reducer(state = repoInitialState, action: ActionType) {
 				},
 			};
 
+		case FETCH_FIRST:
 		case FETCH_INIT:
 		case FETCH_LATEST: {
 			const {
@@ -129,6 +131,13 @@ export function fetchLatest(options: FetchOptions) {
 export function fetchNewInit(options: FetchOptions) {
 	return {
 		type: FETCH_NEW_INIT,
+		options,
+	};
+}
+
+export function fetchFirst(options: FetchOptions) {
+	return {
+		type: FETCH_FIRST,
 		options,
 	};
 }

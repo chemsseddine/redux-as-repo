@@ -1,17 +1,25 @@
-import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import { AxiosError, AxiosInstance } from 'axios';
+import {
+	call,
+	put,
+	takeEvery,
+	takeLatest,
+	select,
+	takeLeading,
+} from 'redux-saga/effects';
+import { AxiosInstance } from 'axios';
 import { FetchOptions } from './types';
 import {
 	FETCH_ERROR,
 	FETCH_INIT,
 	FETCH_SUCCESS,
 	FETCH_LATEST,
-	fetchClear,
+	FETCH_FIRST,
 	UPDATE_REPOSITORY,
-	getNamespace,
 	SAVE_UPDATE_REPOSITORY,
 	UPDATE_FAILED,
 	FETCH_NEW_INIT,
+	fetchClear,
+	getNamespace,
 } from '.';
 const format = require('string-template');
 
@@ -106,6 +114,9 @@ function* repoSaga(instance: AxiosInstance) {
 		fetchDataSaga(action, instance)
 	);
 	yield takeLatest(FETCH_NEW_INIT, (action: FetchAction) =>
+		fetchDataSaga(action, instance)
+	);
+	yield takeLeading(FETCH_FIRST, (action: FetchAction) =>
 		fetchDataSaga(action, instance)
 	);
 	yield takeLatest(UPDATE_REPOSITORY, updateRepoSaga);
