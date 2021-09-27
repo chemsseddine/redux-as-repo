@@ -81,14 +81,14 @@ Throwing an error will cause a `FETCH_ERROR` action to be dispatched
 
 ## Common Action Creators
 
-| actionCreator      | args            | saga effect   | saga effect   | Description                                                                                       |
-| ------------------ | --------------- | ------------- | ------------- | ------------------------------------------------------------------------------------------------- |
-| `fetchInit`        | `fetchOptions`  | `takeEvery`   | `takeEvery`   | Every action is handled by the repo reducer                                                       |
-| `fetchLatest`      | `fetchOptions`  | `takeLatest`  | `takeLatest`  | Only last resolved value will be taken into consideration by the repo reducer                     |
-| `fetchFirst`       | `fetchOptions`  | `takeLeading` | `takeLeading` | it blocks all upcoming actions `FETCH_FIRST` until the previous action is handled by repo reducer |
-| `fetchNewInit`     | `fetchOptions`  | `takeEvery`   | `takeEvery`   | same as `fetchInit` but creates a new namespace template for each request                         |
-| `fetchClear`       | `string`        | None          | None          | No Saga effect, will clear the namespace in question                                              |
-| `updateRepository` | `updateOptions` | `takeEvery`   | `takeEvery`   | update/create new namespace with the resulting of `compute` method                                |
+| actionCreator      | args            | saga effect   | Description                                                                                       |
+| ------------------ | --------------- | ------------- | ------------------------------------------------------------------------------------------------- |
+| `fetchInit`        | `fetchOptions`  | `takeEvery`   | Every action is handled by the repo reducer                                                       |
+| `fetchLatest`      | `fetchOptions`  | `takeLatest`  | Only last resolved value will be taken into consideration by the repo reducer                     |
+| `fetchFirst`       | `fetchOptions`  | `takeLeading` | it blocks all upcoming actions `FETCH_FIRST` until the previous action is handled by repo reducer |
+| `fetchNewInit`     | `fetchOptions`  | `takeEvery`   | same as `fetchInit` but creates a new namespace template for each request                         |
+| `fetchClear`       | `string`        | None          | No Saga effect, will clear the namespace in question                                              |
+| `updateRepository` | `updateOptions` | `takeEvery`   | update/create new namespace with the resulting of `compute` method                                |
 
 ## `fetchOptions`
 
