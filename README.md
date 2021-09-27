@@ -83,14 +83,14 @@ Throwing an error will cause a `FETCH_ERROR` action to be dispatched
 
 | actionCreator      | args            | saga effect   | Description                                                                                       |
 | ------------------ | --------------- | ------------- | ------------------------------------------------------------------------------------------------- |
-| `fetchInit`        | `fetchOptions`  | `takeEvery`   | Every action is handled by the repo reducer                                                       |
-| `fetchLatest`      | `fetchOptions`  | `takeLatest`  | Only last resolved value will be taken into consideration by the repo reducer                     |
-| `fetchFirst`       | `fetchOptions`  | `takeLeading` | it blocks all upcoming actions `FETCH_FIRST` until the previous action is handled by repo reducer |
-| `fetchNewInit`     | `fetchOptions`  | `takeEvery`   | same as `fetchInit` but creates a new namespace template for each request                         |
+| `fetchInit`        | `FetchOptions`  | `takeEvery`   | Every action is handled by the repo reducer                                                       |
+| `fetchLatest`      | `FetchOptions`  | `takeLatest`  | Only last resolved value will be taken into consideration by the repo reducer                     |
+| `fetchFirst`       | `FetchOptions`  | `takeLeading` | it blocks all upcoming actions `FETCH_FIRST` until the previous action is handled by repo reducer |
+| `fetchNewInit`     | `FetchOptions`  | `takeEvery`   | same as `fetchInit` but creates a new namespace template for each request                         |
 | `fetchClear`       | `string`        | None          | No Saga effect, will clear the namespace in question                                              |
-| `updateRepository` | `updateOptions` | `takeEvery`   | update/create new namespace with the resulting of `compute` method                                |
+| `updateRepository` | `UpdateOptions` | `takeEvery`   | update/create new namespace with the resulting of `compute` method                                |
 
-## `fetchOptions`
+## `FetchOptions`
 
 `repository` slice in redux store handled by common action creators to store data.
 
@@ -151,7 +151,18 @@ data is stored in this format
 
 ### `updateRepository`
 
-`updateRepository` action creator is made for this, the usage is pretty simple,
+Use this common action creator for creating a new namespace or updating an existing namespace.
+
+`UpdateOptions`
+
+```
+UpdateOptions {
+	namespace: string;
+	compute: (namespaceState: undefined | NamespaceState) => NewNamespaceState;
+}
+```
+
+Usage
 
 ```javascript
 function updateProject(newValue) {
