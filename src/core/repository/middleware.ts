@@ -113,13 +113,13 @@ function* repoSaga(instance: AxiosInstance) {
 	yield takeLatest(FETCH_LATEST, (action: FetchAction) =>
 		fetchDataSaga(action, instance)
 	);
-	yield takeLatest(FETCH_NEW_INIT, (action: FetchAction) =>
+	yield takeEvery(FETCH_NEW_INIT, (action: FetchAction) =>
 		fetchDataSaga(action, instance)
 	);
 	yield takeLeading(FETCH_FIRST, (action: FetchAction) =>
 		fetchDataSaga(action, instance)
 	);
-	yield takeLatest(UPDATE_REPOSITORY, updateRepoSaga);
+	yield takeEvery(UPDATE_REPOSITORY, updateRepoSaga);
 }
 
 export default function createRepoSaga(
