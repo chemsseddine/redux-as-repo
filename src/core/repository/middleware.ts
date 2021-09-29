@@ -21,6 +21,7 @@ import {
 	fetchClear,
 	getNamespace,
 } from '.';
+
 const format = require('string-template');
 
 type FetchAction = {

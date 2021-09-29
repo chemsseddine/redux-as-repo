@@ -1,5 +1,6 @@
+import format from 'string-template';
 import axios from 'axios';
-import { runSaga, Saga } from 'redux-saga';
+import { runSaga } from 'redux-saga';
 import { fetchDataSaga, updateRepoSaga } from '../core/repository/middleware';
 import {
 	FETCH_SUCCESS,
@@ -7,7 +8,6 @@ import {
 	FETCH_CLEAR,
 	SAVE_UPDATE_REPOSITORY,
 } from '../core/repository';
-const format = require('string-template');
 
 jest.mock('axios');
 
@@ -21,11 +21,11 @@ describe('fetchDataSaga', () => {
 		const dispatched: any[] = [];
 		const state = { repository: {} };
 		const expectedResult = 'result';
-		((axios as unknown) as jest.Mock).mockResolvedValue({
+		(axios as unknown as jest.Mock).mockResolvedValue({
 			data: expectedResult,
 		});
 
-		const result = await runSaga(
+		await runSaga(
 			{
 				dispatch: action => dispatched.push(action),
 				getState: () => state,
@@ -56,11 +56,11 @@ describe('fetchDataSaga', () => {
 		const dispatched: any[] = [];
 		const state = { repository: {} };
 		const errorMessage = 'message error';
-		((axios as unknown) as jest.Mock).mockRejectedValue({
+		(axios as unknown as jest.Mock).mockRejectedValue({
 			message: errorMessage,
 		});
 
-		const result = await runSaga(
+		await runSaga(
 			{
 				dispatch: action => dispatched.push(action),
 				getState: () => state,
@@ -91,11 +91,11 @@ describe('fetchDataSaga', () => {
 		const dispatched: any[] = [];
 		const state = { repository: {} };
 		const expectedResult = 'result';
-		((axios as unknown) as jest.Mock).mockResolvedValue({
+		(axios as unknown as jest.Mock).mockResolvedValue({
 			data: expectedResult,
 		});
 
-		const result = await runSaga(
+		await runSaga(
 			{
 				dispatch: action => dispatched.push(action),
 				getState: () => state,
@@ -131,13 +131,13 @@ describe('fetchDataSaga', () => {
 		const dispatched: any[] = [];
 		const state = { repository: {} };
 		const expectedResult = 'result';
-		((axios as unknown) as jest.Mock).mockResolvedValue({
+		(axios as unknown as jest.Mock).mockResolvedValue({
 			data: expectedResult,
 		});
 
 		const successCb = (data: any) => ({ type: 'CALLBACK_SUCCESS', data });
 
-		const result = await runSaga(
+		await runSaga(
 			{
 				dispatch: action => dispatched.push(action),
 				getState: () => state,
@@ -169,11 +169,11 @@ describe('fetchDataSaga', () => {
 		const formattedUrl = format(url, { projectId });
 		const state = { repository: {}, projectId };
 		const expectedResult = 'result';
-		((axios as unknown) as jest.Mock).mockResolvedValue({
+		(axios as unknown as jest.Mock).mockResolvedValue({
 			data: expectedResult,
 		});
 
-		const result = await runSaga(
+		await runSaga(
 			{
 				dispatch: action => dispatched.push(action),
 				getState: () => state,
@@ -184,7 +184,9 @@ describe('fetchDataSaga', () => {
 				options: {
 					url,
 					namespace,
-					selector: state => ({ projectId: state.projectId }),
+					selector: namespaceState => ({
+						projectId: namespaceState.projectId,
+					}),
 				},
 			},
 			axios
@@ -206,7 +208,7 @@ describe('updateRepoSaga', () => {
 		const state = {
 			repository: { [namespace]: namespaceState },
 		};
-		const result = await runSaga(
+		await runSaga(
 			{
 				dispatch: action => dispatched.push(action),
 				getState: () => state,
@@ -215,7 +217,7 @@ describe('updateRepoSaga', () => {
 			{
 				type: 'UPDATE_REPOSITORY', // this doesnt matter since we are running saga manually
 				options: {
-					compute: state => ({ ...state, id }),
+					compute: oldState => ({ ...oldState, id }),
 					namespace,
 				},
 			}
