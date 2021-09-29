@@ -75,14 +75,15 @@ export function* fetchDataSaga(
 			yield put(fetchClear(namespace));
 		}
 	} catch (e: any) {
-		if (errorCb) {
-			yield put(errorCb(e));
-		}
 		yield put({
 			type: FETCH_ERROR,
 			message: e?.message,
 			namespace,
+			fullError: e,
 		});
+		if (errorCb) {
+			yield put(errorCb(e));
+		}
 	}
 }
 
