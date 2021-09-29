@@ -31,6 +31,7 @@ export const createNamespaceState = (data: any = []): NamespaceState => ({
 	loading: false,
 	success: false,
 	trace: null,
+	fullError: null,
 });
 
 export default function reducer(state = repoInitialState, action: ActionType) {
@@ -91,7 +92,7 @@ export default function reducer(state = repoInitialState, action: ActionType) {
 			};
 		}
 		case FETCH_ERROR: {
-			const { namespace, message } = action as ErrorAction;
+			const { namespace, message, fullError } = action as ErrorAction;
 			return {
 				...state,
 				[namespace]: {
@@ -100,6 +101,7 @@ export default function reducer(state = repoInitialState, action: ActionType) {
 					success: false,
 					error: true,
 					trace: message,
+					fullError,
 				},
 			};
 		}

@@ -6,6 +6,7 @@ export type NamespaceState = {
 	loading: boolean;
 	success: boolean;
 	trace: null | string;
+	fullError: null | any;
 };
 
 export interface InitAction {
@@ -31,6 +32,7 @@ export interface ErrorAction {
 	type: string;
 	namespace: string;
 	message: string | object;
+	fullError: any;
 }
 
 export interface ClearAction {
