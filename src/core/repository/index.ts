@@ -35,7 +35,7 @@ export const createNamespaceState = (data: any = []): NamespaceState => ({
 
 export default function reducer(state = repoInitialState, action: ActionType) {
 	switch (action.type) {
-		case FETCH_NEW_INIT:
+		case FETCH_NEW_INIT: {
 			const {
 				options: { namespace, initialState },
 			} = action as InitAction;
@@ -46,6 +46,7 @@ export default function reducer(state = repoInitialState, action: ActionType) {
 					loading: true,
 				},
 			};
+		}
 
 		case FETCH_FIRST:
 		case FETCH_INIT:
@@ -164,23 +165,20 @@ export const repositorySelector = (state: any): { [key: string]: any } => {
 	return state.repository;
 };
 
-export const getNamespace = (namespace: string) => {
-	return createSelector(repositorySelector, repo => {
+export const getNamespace = (namespace: string) =>
+	createSelector(repositorySelector, repo => {
 		if (!repo[namespace]) return {};
 		return repo[namespace];
 	});
-};
 
-export const getData = (namespace: string, defaultState?: any) => {
-	return createSelector(repositorySelector, repo => {
+export const getData = (namespace: string, defaultState?: any) =>
+	createSelector(repositorySelector, repo => {
 		if (!repo[namespace]) return defaultState ?? null;
 		return repo[namespace].data;
 	});
-};
 
-export const getLoadingState = (namespace: string) => {
-	return createSelector(repositorySelector, repo => {
+export const getLoadingState = (namespace: string) =>
+	createSelector(repositorySelector, repo => {
 		if (!repo[namespace]) return false;
 		return repo[namespace].loading;
 	});
-};

@@ -13,15 +13,14 @@ import {
 	InitAction,
 	ClearAction,
 	SuccessAction,
-	ErrorAction,
 	UpdateAction,
 } from '../core/repository/types';
 
 describe('repository reducer', () => {
-	const initialState = {};
 	const namespace = 'test';
 
 	it('should return initialNamespace State for FETCH_INIT and FETCH_LATEST', () => {
+		const initialState = {};
 		const types = [FETCH_INIT, FETCH_LATEST];
 		// pick a random type from types list
 		const type = types[Math.floor(Math.random() * types.length)];

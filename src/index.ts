@@ -1,6 +1,7 @@
-import createRepoSaga from './core/repository/middleware';
 import repoReducer from './core/repository';
 import useNamespace from './hooks/useNamespace';
+import createRepoSaga from './core/repository/middleware';
+
 export {
 	getNamespace,
 	fetchInit,

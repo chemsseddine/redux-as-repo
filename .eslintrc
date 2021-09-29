@@ -1,0 +1,22 @@
+{
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["@typescript-eslint"],
+	"extends": ["airbnb", "prettier"],
+	"rules": {
+		"@typescript-eslint/no-unused-vars":"error",
+		"no-tabs": "off",
+		"import/no-extraneous-dependencies": [ "error", { "packageDir": "./" } ],
+		"import/extensions": ["error","ignorePackages",{  "js": "never",  "jsx": "never",  "ts": "never",  "tsx": "never"}]
+	},
+	"settings": {
+		"import/resolver": {
+			"node": {
+        			"extensions": [".js", ".jsx", ".ts", ".tsx"]
+			}
+		}
+	},
+	"env": {
+		"jest":true
+	}
+}
