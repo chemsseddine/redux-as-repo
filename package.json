@@ -64,6 +64,8 @@
   "dependencies": {
     "@types/lodash.isequal": "^4.5.5",
     "lodash.isequal": "^4.5.0",
+  },
+  "peerDependencies": {
     "@types/string-template": "^1.0.2",
     "reselect": "^4.0.0",
     "axios": "^0.21.1",
