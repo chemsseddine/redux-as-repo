@@ -213,3 +213,110 @@ const { data, error, loading } = useNamespace({
 | `autoClear` | `boolean`  | default : `false` | clear namespace on component cleanup                                          |
 | `namespace` | `string`   | Yes               | where namespace is saved                                                      |
 | `onSuccess` | `callback` | No                | will be executed if namespace.success is true, data is passed to the callback |
+
+# Query Hooks Generation
+
+To generate hooks ready to be used in the component
+
+`createNamespaceApi`
+
+| Property    | Type     | required | Description                                                  |
+| ----------- | -------- | -------- | ------------------------------------------------------------ |
+| `namespace` | `string` | Yes      | base namespace where to store data `{namespace}_{queryName}` |
+| `queries`   | `Hook`   | Yes      | object that holds all queries methods                        |
+
+```typescript
+interface Hook {
+	[key: string]: {
+		query: (...args: any[]) => string | HookFetchOptions;
+		effect?: `${FetchEffect}`;
+		fetchOnMount?: boolean;
+	};
+}
+
+interface HookFetchOptions {
+	url: string;
+	config: AxiosRequestConfig;
+}
+
+export enum FetchEffect {
+	New = 'new',
+	First = 'first',
+	Latest = 'latest',
+	Init = 'init',
+}
+```
+
+### Generated Hook ReturnType
+
+```typescript
+interface HookResult extends NamespaceState {
+	namespace: string;
+	refetch: (...args: any[]) => void;
+}
+
+export type NamespaceState = {
+	data: any;
+	error: boolean;
+	loading: boolean;
+	success: boolean;
+	trace: null | string;
+	fullError: null | any;
+};
+```
+
+## Usage
+
+```js
+import { createNamespaceApi, FetchEffect } from 'redux-as-repo';
+
+const hooks = createNamespaceApi({
+	namespace: 'todos',
+	queries: {
+		getTodo: {
+			query: () => 'todos',
+			effect: FetchEffect.First,
+			fetchOnMount: true,
+		},
+		getTodoById: {
+			query: id => `todos/${id}`,
+		},
+		addTodo: {
+			query: data => ({
+				url: '/todos',
+				config: {
+					method: 'post',
+					data,
+				},
+			}),
+		},
+	},
+});
+
+export const { useGetTodo, useGetTodoById, useAddTodo } = hooks;
+
+// Component.tsx
+...
+const [state, setState] = useState(false);
+const [id, setId] = useState(1);
+
+const { data, loading, error, refetch } = useGetTodo({
+	autoClear: true,
+	onSuccess: console.log,
+	deps: [state],
+});
+
+const { refetch: getTodoById } = useGetTodoById(id, {
+	deps: [id, state],
+});
+
+const { refetch: addTodo } = useAddTodo({ key: 'value' });
+```
+
+```typescript
+interface HookOptions {
+	autoClear?: boolean;
+	deps: any[];
+	onSuccess: (data: NamespaceState) => any;
+}
+```

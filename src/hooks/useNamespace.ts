@@ -22,7 +22,7 @@ export default function useNamespace({
 		if (namespaceData?.success && onSuccess) {
 			onSuccess(namespaceData);
 		}
-	}, [namespaceData?.success, onSuccess]);
+	}, [namespaceData?.success]);
 
 	useEffect(
 		() => () => {
